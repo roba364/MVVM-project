@@ -42,7 +42,7 @@ class TestView: UIView {
     }
     
     private func update(viewData: ViewData.UserData?, isHidden: Bool, activityIndicator: inout UIActivityIndicatorView) {
-        imageView.image = UIImage(named: viewData?.icon ?? "")
+        imageView.image = viewData?.icon
         titleLabel.text = viewData?.title
         descriptionLabel.text = viewData?.description
         titleLabel.isHidden = isHidden

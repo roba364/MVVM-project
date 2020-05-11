@@ -6,13 +6,14 @@
 //  Copyright © 2020 Sergey Borovkov. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // Dependency Inversion
 
 protocol MainViewModelProtocol {
     var updateViewData: ((ViewData) -> Void)? { get set }
     func startFetch()
+    func error()
 }
 
 final class MainViewModel: MainViewModelProtocol {
@@ -23,27 +24,20 @@ final class MainViewModel: MainViewModelProtocol {
         updateViewData?(.initial)
     }
     
+    func error() {
+        updateViewData?(.failure(ViewData.UserData(
+        icon: UIImage(named: "close"),
+        title: "Error",
+        description: "loading failure",
+        numberPhone: nil)))
+    }
+    
     func startFetch() {
-        // start loading
-        updateViewData?(.loading(ViewData.UserData(icon: nil,
-                                                   title: nil,
-                                                   description: nil,
-                                                   numberPhone: nil)))
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.updateViewData?(.success(ViewData.UserData(
-                icon: "success",
-                title: "Success",
-                description: "loading success",
-                numberPhone: nil)))
-        }
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 6) { [weak self] in
-            self?.updateViewData?(.failure(ViewData.UserData(
-                icon: "error",
-                title: "Error",
-                description: "loading failure",
-                numberPhone: nil)))
-        }
+        updateViewData?(.success(ViewData.UserData(
+        icon: UIImage(named: "interface"),
+        title: "Success",
+        description: "loading success",
+        numberPhone: nil)))
+
     }
 }
